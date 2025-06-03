@@ -4,6 +4,10 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import 'bootstrap';
 import Chart from "./Chart.jsx";
+import OptionsMenu from "./OptionsMenu.jsx";
+import VolCurve from "./VolCurve.jsx";
+
+
 
 function App() {
   const [count, setCount] = useState(0);
@@ -17,16 +21,17 @@ function App() {
       <div className="grid grid-cols-2 grid-rows-2 gap-2 h-1/1 row-gap-2">
 
         <div className="bg-white text-black font-bold col-span-2 h-1/1">
-          INSERT CANDLESTICK CHART HERE
           <Chart/>
         </div>
 
         <div className="bg-white text-black font-bold">
           INSERT VOLATILITY CURVE HERE
+          <VolCurve/>
         </div>
 
         <div className="bg-white text-black font-bold">
-          INSERT OPTIONS REQUEST HERE
+          INSERT OPTIONS MENU HERE
+          <OptionsMenu/>
         </div>
 
       </div>

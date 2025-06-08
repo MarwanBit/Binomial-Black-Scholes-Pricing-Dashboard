@@ -26,7 +26,6 @@ function App() {
         </div>
 
         <div className="bg-white text-black font-bold">
-          INSERT VOLATILITY CURVE HERE
           {
             //<VolCurve/>
           }
@@ -36,8 +35,7 @@ function App() {
         </div>
 
         <div className="bg-white text-black font-bold">
-          INSERT OPTIONS MENU HERE
-          <OptionsMenu/>
+           <OptionsMenu/>
         </div>
 
       </div>

@@ -21,6 +21,7 @@ npm install react-plotly.js plotly.js
 npm install --save react-three-fiber three
 npm install @react-three/drei
 
+
 Backend dependencies:
 
 pip install fastapi[standard]

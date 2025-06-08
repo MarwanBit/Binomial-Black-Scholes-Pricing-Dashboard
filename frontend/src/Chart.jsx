@@ -32,7 +32,7 @@ function Chart() {
     useEffect(() => {
       const fetchCandleStickData = async () => {
         try{
-          const response = await fetch("http://localhost:8000/get_candlestick_data/AAPL", {
+          const response = await fetch("http://localhost:8000/get_candlestick_data/TSLA", {
             method: "GET",
             headers : {
               'Content-Type': "application/json",
@@ -55,10 +55,7 @@ function Chart() {
               name: "Candlestick"
             }],
             options: data["options"]
-          });
-
-          console.log(data);
-      
+          });      
         } catch (error) {
           console.error("Error fetching data: ", error);
         }

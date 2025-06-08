@@ -19,6 +19,10 @@ from mpl_toolkits.mplot3d import Axes3D
 from scipy.interpolate import griddata
 import numpy as np
 
+import base64
+import io
+
+
 from fastapi.middleware.cors import CORSMiddleware
 
 origins = [
@@ -177,6 +181,7 @@ def get_market_data(ticker: str):
     chains = chains.reset_index(drop=True)
     chains.replace({np.nan: None})
     chains = chains[chains.isna().any(axis=1) == False]
+    chains = chains.reset_index()
     chains = chains.to_dict(orient='records')
     response = {
         "data": chains,
@@ -191,7 +196,6 @@ def get_candlestick_data(symbol: str):
     ticker = yf.Ticker(symbol)
     data = ticker.history(period="1mo", interval="1d") #the date is the index
     data = data.reset_index()                           # here we reset the index
-    print(data.columns)
     data["Date"] = data["Date"].dt.strftime("%Y-%m-%d %H:%M:%S")
     response = {
         "data": data.to_dict(orient='records'),

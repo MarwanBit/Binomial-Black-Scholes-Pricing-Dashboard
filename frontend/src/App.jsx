@@ -6,6 +6,7 @@ import 'bootstrap';
 import Chart from "./Chart.jsx";
 import OptionsMenu from "./OptionsMenu.jsx";
 import VolCurve from "./VolCurve.jsx";
+import ImpliedVolCurve from './ImpliedVolCurve.jsx';
 
 
 
@@ -26,7 +27,12 @@ function App() {
 
         <div className="bg-white text-black font-bold">
           INSERT VOLATILITY CURVE HERE
-          <VolCurve/>
+          {
+            //<VolCurve/>
+          }
+          <ImpliedVolCurve/>
+
+
         </div>
 
         <div className="bg-white text-black font-bold">

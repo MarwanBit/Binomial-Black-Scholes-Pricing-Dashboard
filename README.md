@@ -22,6 +22,15 @@ npm install --save react-three-fiber three
 npm install @react-three/drei
 
 
+Backend dependencies:
+
+pip install fastapi[standard]
+
+Start Backend:
+
+fastapi dev python_backend.py
+
+
 
 
 https://tailwindcss.com/docs/installation/using-vite

@@ -10,13 +10,20 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-three/drei": "^10.1.2",
+    "@react-three/fiber": "^9.1.2",
+    "@tailwindcss/vite": "^4.1.8",
     "apexcharts": "^4.7.0",
     "bootstrap": "^5.3.6",
     "d3": "^7.9.0",
+    "plotly.js": "^3.0.1",
     "react": "^19.1.0",
     "react-apexcharts": "^1.7.0",
     "react-bootstrap": "^2.10.10",
     "react-dom": "^19.1.0",
+    "react-plotly.js": "^2.6.0",
+    "tailwindcss": "^4.1.8",
+    "three": "^0.177.0",
     "typescript": "^5.8.3"
   },
   "devDependencies": {

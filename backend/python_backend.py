@@ -19,6 +19,12 @@ from mpl_toolkits.mplot3d import Axes3D
 from scipy.interpolate import griddata
 import numpy as np
 
+from typing import Optional
+from pydantic import BaseModel
+from fastapi import FastAPI, HTTPException
+from fastapi.responses import JSONResponse
+from fastapi import Request
+
 import base64
 import io
 
@@ -165,7 +171,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins = ["*"],
+    allow_origins = ["*", "http://localhost:5173"],
     allow_credentials = True,
     allow_methods = ["*"],
     allow_headers = ["*"]
@@ -182,12 +188,42 @@ def get_market_data(ticker: str):
     chains.replace({np.nan: None})
     chains = chains[chains.isna().any(axis=1) == False]
     chains = chains.reset_index()
-    chains = chains.to_dict(orient='records')
+    coords = pd.DataFrame(["Moneyness", "Time to Expiration", "Implied Volatility"])
+    hist_vol = calc_hist_vol("TSLA")
+    N_STEPS = 100
+    for index, row in chains.iterrows():
+        T, S0, K, r, C_mkt = row["T"], row["S0"], row["K"], row["r"], row["lastPrice"]
+        # print(f"T={T:.4f}, S0={S0}, K={K}, r={r}, C_mkt={C_mkt}")
+        moneyness = S0 / K 
+        time_to_expiry = T 
+        implied_vol = calculate_implied_volatility(N_STEPS, C_mkt, T, S0, K, r, hist_vol)
+        new_row = pd.DataFrame([{"Moneyness": moneyness, 
+                                "Time to Expiry": time_to_expiry, 
+                                "Implied Volatility": implied_vol
+                                }])
+        coords = pd.concat([coords, new_row], ignore_index=True)
+    coords = coords.dropna(subset=["Moneyness", "Time to Expiry", "Implied Volatility"])
+    points = np.array(coords[["Moneyness", "Time to Expiry", "Implied Volatility"]].values)
+    x = points[:, 0]
+    y = points[:, 1]
+    z = points[:, 2]
+
+    # Create a 2D grid for x and y
+    xi = np.linspace(min(x), max(x), 100)
+    yi = np.linspace(min(y), max(y), 100)
+    xi, yi = np.meshgrid(xi, yi)
+    
+    # Interpolate z values
+    zi = griddata((x,y), z, (xi, yi), method='cubic')
+
+    zi = np.nan_to_num(zi, nan=np.nanmean(zi))
+    
     response = {
-        "data": chains,
+        "moneyness": xi.tolist(),
+        "time_to_expiry": yi.tolist(),
+        "implied_volatility": zi.tolist(),
         "stock": ticker 
     }
-    print(response)
     return response
 
 
@@ -202,3 +238,41 @@ def get_candlestick_data(symbol: str):
         "stock": symbol
     }
     return response
+
+
+
+
+@app.post("/get_opt_price")
+async def get_opt_price(request: Request):
+    try: 
+        data = await request.json()
+        #get the fields
+        stock = data.get("stock")
+        strike_price = float(data.get("strike-price"))
+        risk_free_rate = float(data.get("risk-free-rate"))
+        time_to_expiry = float(data.get("time-to-expiry"))
+        volatility = float(data.get("volatility"))
+        current_stock_price = float(data.get("current-stock-price"))
+
+        call_price = blackScholesOptionPrice(
+            current_stock_price,
+            strike_price,
+            risk_free_rate,
+            volatility,
+            time_to_expiry,
+            0
+        )
+
+        return JSONResponse({
+            "status": "success",
+            "message": "Form submitted successfully",
+            "data": {
+                "optionPrice": call_price
+            }
+        })
+    
+    except Exception as e:
+        return JSONResponse(
+            status_code=500,
+            content={"status": "error", "message": str(e)}
+        )

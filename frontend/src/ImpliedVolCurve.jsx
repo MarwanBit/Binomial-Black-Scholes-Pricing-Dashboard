@@ -7,19 +7,10 @@ import 'plotly.js/dist/plotly.min.js';
 
 
 function ImpliedVolCurve(){
-    const [data, setData] = useState([]);
+    const [moneyness, setMoneyness] = useState([0]);
+    const [timeToExpiry, setTimeToExpiry] = useState([0]);
+    const [impliedVol, setImpliedVol] = useState([0]);
 
-    const moneyness = [0.8, 0.9, 1.0, 1.1, 1.2];
-    const timeToExpiry = [0.1, 0.2, 0.3, 0.4, 0.5];
-    
-    // Create a 2D array for z values
-    const impliedVol = [
-        [0.3, 0.35, 0.4, 0.45, 0.5],
-        [0.35, 0.4, 0.45, 0.5, 0.55],
-        [0.4, 0.45, 0.5, 0.55, 0.6],
-        [0.45, 0.5, 0.55, 0.6, 0.65],
-        [0.5, 0.55, 0.6, 0.65, 0.7]
-    ];
     
     useEffect(() => {
         const get_volatility_data = async () => {
@@ -31,25 +22,27 @@ function ImpliedVolCurve(){
                     }
                 });
                 let volatilityData = await response.json();
-                volatilityData = volatilityData.data.map(item => ({
-                    impliedVolatility: item["impliedVolatility"],
-                    S0: item["S0"],
-                    T: item["T"],
-                    r: item["r"],
-                    K: item["K"],
-                    moneyness: item["K"] != 0 ? (item["S0"] / item["K"]) : 0, 
-                }));
-                setData(volatilityData);
-                console.log(data);
+                console.log("Received volatility data: ", volatilityData);
+                setMoneyness(volatilityData.moneyness);
+                setTimeToExpiry(volatilityData.time_to_expiry);
+                setImpliedVol(volatilityData.implied_volatility);
             } catch (error) {
-                console.log("Error fetching data: ", data);
+                console.log("Error fetching data: ", moneyness, timeToExpiry, impliedVol);
             }
         }
         get_volatility_data();
     },[]);
 
+    useEffect(() => {
+        console.log("State updated:", {
+            moneyness,
+            timeToExpiry,
+            impliedVol
+        });
+    }, [moneyness, timeToExpiry, impliedVol]);
+
     return (
-    <div key={JSON.stringify(data)}>
+    <div key={`${moneyness.length}-${timeToExpiry.length}-${impliedVol.length}`}>
         <Plot
             data={[
                 {

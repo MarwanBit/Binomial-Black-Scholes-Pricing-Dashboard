@@ -98,3 +98,23 @@ export type OptionsMenuFieldProps = {
   /** the string representation of the label */
   label: string
 }
+
+/**
+ * @description
+ * a m x n matrix of numbers (floats) which we use for creating the 3d-vol surface
+ */
+export type twoD_matrix = Array<Array<number>>
+
+/**
+ * @description
+ * the surface data which consists of three m x n matrices (of floats) which are used to specify
+ * the moneyness, time_to_expiry, and implied volatility (x,y,z) for each point on the volatility surface
+ *
+ * @note the dimensions of moneyness, time_to_expiry, and implied volatility must match!
+ */
+export interface surfaceData {
+  /** matrix of floats  */
+  moneyness: twoD_matrix
+  time_to_expiry: twoD_matrix
+  implied_volatility: twoD_matrix
+}

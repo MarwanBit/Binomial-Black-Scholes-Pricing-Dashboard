@@ -5,7 +5,6 @@ import {
   OptionPriceResponse,
   JsonString,
   stringifyJson,
-  OptionsMenuFieldProps,
 } from './types/form'
 
 /**

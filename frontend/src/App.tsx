@@ -1,18 +1,10 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import 'bootstrap';
-import Chart from "./Chart.jsx";
-import OptionsMenu from "./OptionsMenu.jsx";
-import VolCurve from "./VolCurve.jsx";
-import ImpliedVolCurve from './ImpliedVolCurve.jsx';
-
-
+import "./App.css";
+import "bootstrap";
+import Chart from "./Chart.js";
+import OptionsMenu from "./OptionsMenu.js";
+import ImpliedVolCurve from "./ImpliedVolCurve.js";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
       <div className="bg-black text-white font-bold mb-4">
@@ -20,27 +12,20 @@ function App() {
       </div>
 
       <div className="grid grid-cols-2 grid-rows-2 gap-2 h-1/1 row-gap-2">
-
         <div className="bg-white text-black font-bold col-span-2 h-1/1">
-          <Chart/>
+          <Chart />
         </div>
 
         <div className="bg-white text-black font-bold">
-          {
-            //<VolCurve/>
-          }
-          <ImpliedVolCurve/>
-
-
+          <ImpliedVolCurve />
         </div>
 
         <div className="bg-white text-black font-bold">
-           <OptionsMenu/>
+          <OptionsMenu />
         </div>
-
       </div>
     </>
-  )
+  );
 }
 
 export default App;

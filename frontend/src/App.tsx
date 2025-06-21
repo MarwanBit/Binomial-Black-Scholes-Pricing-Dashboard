@@ -1,8 +1,8 @@
-import "./App.css";
-import "bootstrap";
-import Chart from "./Chart.js";
-import OptionsMenu from "./OptionsMenu.js";
-import ImpliedVolCurve from "./ImpliedVolCurve.js";
+import './App.css'
+import 'bootstrap'
+import Chart from './Chart.jsx'
+import OptionsMenu from './OptionsMenu.jsx'
+import ImpliedVolCurve from './ImpliedVolCurve.jsx'
 
 function App() {
   return (
@@ -25,7 +25,7 @@ function App() {
         </div>
       </div>
     </>
-  );
+  )
 }
 
-export default App;
+export default App

@@ -1,4 +1,4 @@
-import { OptionsMenuFieldProps } from './types/form'
+import { OptionsMenuFieldProps } from './types/types'
 
 /**
  * OptionsMenuField Component

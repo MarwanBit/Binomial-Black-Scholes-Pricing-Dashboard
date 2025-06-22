@@ -1,6 +1,7 @@
 from typing import Union 
 from fastapi import FastAPI
-
+import os
+from dotenv import load_dotenv
 import numpy as np 
 import matplotlib.pyplot as plt
 import pandas as pd 
@@ -37,9 +38,9 @@ origins = [
 ]
 
 
+api_key = os.getenv("POLYGON_API_KEY")
 
-
-client = RESTClient(api_key="bYx0g7_YgYXQsq1msFy5zo8KmEAXpc1y")
+client = RESTClient(api_key=api_key)  # replace with your Polygon.io API key
 
 def calc_d1(S, K, r, vol, T, t):
     epsilon = 1e-8

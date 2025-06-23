@@ -1,7 +1,10 @@
 {
   "dependencies": {
+    "@polygon.io/client-js": "^7.4.0",
     "axios": "^1.10.0",
+    "dotenv": "^16.5.0",
     "kafkajs": "^2.2.4",
+    "polygon.io": "^2.1.2",
     "redis": "^5.5.6"
   }
 }

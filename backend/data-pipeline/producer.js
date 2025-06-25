@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ path: '../../.env' });
 const KAFKA_BROKER = 'localhost:9092';
 const TOPIC = 'stock-prices';
 const { Kafka } = require('kafkajs');
@@ -6,18 +6,11 @@ const { restClient } = require('@polygon.io/client-js');
 const axios = require('axios');
 
 async function fetchStockPrice(symbol) {
-    const apiKey = "bYx0g7_YgYXQsq1msFy5zo8KmEAXpc1y";
-    console.log("API KEY: ", apiKey);
-    if (!apiKey) {
-        throw new Error('Polygon API key is not set in environment variables');
-    }
+    const apiKey = process.env.POLYGON_API_KEY;
     const rest = restClient(apiKey);
-
     try {
-        const response = await rest.reference.tickerDetails(
-            symbol,
-            {}
-        )
+        const response = await rest.stocks.aggregates(symbol, 1, 'minute', '2025-01-09', '2025-01-10');
+        console.log(`Fetched stock price for ${symbol}:`, response);
         return response;
     } catch (error) {
         console.error(`Error fetching stock price for ${symbol}:`, error);
@@ -44,5 +37,4 @@ async function run() {
     }
 
 }
-
 run().catch(console.error);

@@ -229,7 +229,7 @@ export type surfacePlotData = [
     z: dynamicMatrix
     colorscale: 'Viridis' | 'Magma' | 'Plasma' | 'Inferno' | 'Cividis'
     showscale: boolean
-  },
+  }
 ]
 
 /**

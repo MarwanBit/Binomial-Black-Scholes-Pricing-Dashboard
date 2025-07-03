@@ -1,8 +1,80 @@
 import { useState, useEffect } from 'react'
 import Plot from 'react-plotly.js'
 import 'plotly.js/dist/plotly.min.js'
-import { surfaceData, dynamicMatrix, surfacePlotData } from './types/types'
-import { PlotParams } from 'react-plotly.js'
+import {
+  surfaceData,
+  dynamicMatrix,
+  surfacePlotData,
+  surfacePlotLayout,
+  surfacePlotConfig,
+} from './types/types'
+
+/**
+ * @description
+ * default plot configuration options for creating the surface plot
+ */
+const defaultSurfacePlotConfig: surfacePlotConfig = {
+  responsive: true,
+  displayModeBar: true,
+  displaylogo: true,
+}
+
+/**
+ * @description
+ * default plot surface layout, including titles of axis's, font's margins, etc.
+ */
+const defaultSurfacePlotLayout: surfacePlotLayout = {
+  title: {
+    text: 'Implied Volatility Surface',
+    font: {
+      size: 14,
+    },
+  },
+  autosize: true,
+  width: 700,
+  height: 350,
+  margin: {
+    l: 65,
+    r: 50,
+    b: 65,
+    t: 90,
+  },
+  scene: {
+    xaxis: {
+      title: {
+        text: 'Moneyness (S/K)',
+        font: {
+          size: 14,
+          color: '#000000',
+        },
+        showgrid: true,
+        zeroline: true,
+      },
+    },
+    yaxis: {
+      title: {
+        text: 'Time to Expiry (T) in Years',
+        font: {
+          size: 14,
+          color: '#000000',
+        },
+        showgrid: true,
+        zeroline: true,
+      },
+    },
+    zaxis: {
+      title: {
+        text: 'Implied Volatility',
+        font: {
+          size: 14,
+          color: '#000000',
+        },
+        showgrid: true,
+        zeroline: true,
+      },
+    },
+  },
+}
 
 /**
  * validateSurfaceData function
@@ -136,63 +208,8 @@ function ImpliedVolCurve() {
     >
       <Plot
         data={data}
-        layout={{
-          title: {
-            text: 'Implied Volatility Curve',
-            font: {
-              size: 24,
-            },
-          },
-          autosize: true,
-          width: 700,
-          height: 350,
-          margin: {
-            l: 65,
-            r: 50,
-            b: 65,
-            t: 90,
-          },
-          scene: {
-            xaxis: {
-              title: {
-                text: 'Moneyness (S/K)',
-                font: {
-                  size: 14,
-                  color: '#000000',
-                },
-              },
-              showgrid: true,
-              zeroline: true,
-            },
-            yaxis: {
-              title: {
-                text: 'Time to Expiry (T) in Years',
-                font: {
-                  size: 14,
-                  color: '#000000',
-                },
-              },
-              showgrid: true,
-              zeroline: true,
-            },
-            zaxis: {
-              title: {
-                text: 'Implied Volatility',
-                font: {
-                  size: 14,
-                  color: '#000000',
-                },
-              },
-              showgrid: true,
-              zeroline: true,
-            },
-          },
-        }}
-        config={{
-          responsive: true,
-          displayModeBar: true,
-          displaylogo: true,
-        }}
+        layout={defaultSurfacePlotLayout}
+        config={defaultSurfacePlotConfig}
         useResizeHandler={true}
         style={{ width: '100%', height: '100%' }}
       />

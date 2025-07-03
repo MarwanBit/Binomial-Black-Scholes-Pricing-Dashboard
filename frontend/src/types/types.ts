@@ -288,7 +288,15 @@ export interface surfacePlotLayout {
     yaxis: surfacePlotAxis
     zaxis: surfacePlotAxis
   }
+}
+
+/**
+ * @description
+ * the combined bundle of information needed to specify a surfacePlot, contains
+ * the surfacePlot Data, surface plot layout, and surface plot config
+ */
+export interface surfacePlotBundle {
+  data: surfacePlotData
+  layout: surfacePlotLayout
   config: surfacePlotConfig
-  useResizeHandler: boolean
-  style: React.CSSProperties
 }

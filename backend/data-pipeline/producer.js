@@ -9,7 +9,7 @@ async function fetchStockPrice(symbol) {
     const apiKey = process.env.POLYGON_API_KEY;
     const rest = restClient(apiKey);
     try {
-        const response = await rest.stocks.aggregates(symbol, 1, 'minute', '2025-01-09', '2025-01-10');
+        const response = await rest.stocks.aggregates("AAPL", 1, "minute", "2025-01-01", "2025-01-02");
         console.log(`Fetched stock price for ${symbol}:`, response);
         return response;
     } catch (error) {
@@ -37,4 +37,6 @@ async function run() {
     }
 
 }
-run().catch(console.error);
+const stockPrice = fetchStockPrice('AAPL'); // Example stock symbol
+console.log('Fetched stock price:', stockPrice);
+// run().catch(console.error);

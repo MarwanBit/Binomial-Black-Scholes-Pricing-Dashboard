@@ -10,7 +10,7 @@ services:
       - ALLOW_ANONYMOUS_LOGIN=yes
 
   kafka:
-    image: bitnami/kafka:3.4
+    image: soldevelo/kafka:3.4
     container_name: kafka
     ports:
       - "9092:9092"
